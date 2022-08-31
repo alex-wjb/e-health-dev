@@ -15,7 +15,8 @@ class login extends CI_Controller
         $this->load->view('login');
     }
 
-    //retrieves a row of user data from the database
+    //checks database for a user
+    //retrieves a row of user data from the database if user exists
     public function getUserData()
     {
         //retrieve input data from login form
