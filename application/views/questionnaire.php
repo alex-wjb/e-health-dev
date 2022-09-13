@@ -88,12 +88,7 @@ input[type=number] {
     errorContainer.remove();  
   }
   }
-
   }
-
-  const createErrorMsgEle = (inputElement, fieldName, errorMsgId) =>{
-
-  };
 
   // VALIDATION FUNCTIONS
 
@@ -229,15 +224,11 @@ errorContainerEle = element.nextSibling;
 
 const validateInput = (event) => {
 
-  // if(event.type == "radio"){
-  //   textRequired(event, "A selection");
-  // }
   const inputEle = event.currentTarget;
 
   if(inputEle.type=="email" && inputEle.value!==""){
     validateEmail(event, inputEle.value);
   }
-
 
   //sets required, minLen, maxLen for inputs
   switch(inputEle.name){
@@ -292,9 +283,6 @@ const validateInput = (event) => {
     case "exercise_days":
       setValidation(event, "Days", false, 1, 2);
       break;
-      
-
-
   }
 }
 
@@ -355,20 +343,6 @@ const checkRadioSelected = () => {
 
   }
 
-  window.addEventListener('load', function () {
-    const submitBtn = document.getElementById("patientFormSubmit");
-  console.log(submitBtn);
-})
-
-
-
-
-
-
-
-
-
-  // document.getElementById("title").addEventListener("blur", formValidation);
   </script>
   </head>
 
