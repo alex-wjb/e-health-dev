@@ -11,6 +11,19 @@
         scroll-behavior: auto!important;
       }
 
+  /* REMOVE NUMBER INPUT ARROWS */
+      /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 
   @media (max-width: 800px){
     .form-card{
@@ -69,8 +82,10 @@
       //value is null if no next sibling
       child = child.nextSibling;
     }
-    if(!errorContainer.children){
-    errorContainer.remove();
+    
+    // delete error container if no more error msgs
+    if(errorContainer.children.length==0){
+    errorContainer.remove();  
   }
   }
 
@@ -187,19 +202,43 @@ const setValidation = (event, name, required, minLen, maxLen) => {
   
 }
 
-const validateRadio = () =>{
+const validateEmail = (event, inputValue)=> {
+  const element = event.currentTarget;
+    removeErrorMsgEle(element, "emailError");
 
+    let errorContainerEle = null;
+
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputValue) == false){
+    if(element.nextSibling.class !== "errorMsgs"){
+  const errorsContainer = document.createElement("div");
+  errorsContainer.className = "errorMsgs";
+  element.after(errorsContainer);
 }
 
+errorContainerEle = element.nextSibling;
+      let p = document.createElement("p");
+      p.innerHTML = "<b>" + "Please enter a valid email address."+ "</b>";
+      p.style="color:red;"
+      p.className ="emailError";
+      // insert ele after input ele
+      errorContainerEle.appendChild(p);
+
+  }
+};
 
 
 const validateInput = (event) => {
 
-  if(event.type == "radio"){
-    textRequired(event, "A selection");
+  // if(event.type == "radio"){
+  //   textRequired(event, "A selection");
+  // }
+  const inputEle = event.currentTarget;
+
+  if(inputEle.type=="email" && inputEle.value!==""){
+    validateEmail(event, inputEle.value);
   }
 
-  const inputEle = event.currentTarget;
+
   //sets required, minLen, maxLen for inputs
   switch(inputEle.name){
     case "title":
@@ -236,7 +275,7 @@ const validateInput = (event) => {
       setValidation(event, "Height", true, 1, 5);
       break;
     case "weight":
-      setValidation(event, "Height", true, 1, 20);
+      setValidation(event, "Height", true, 1, 5);
       break;
     case "kin_name":
       setValidation(event, "Name", true, 1, 30);
@@ -251,7 +290,7 @@ const validateInput = (event) => {
       setValidation(event, "Minutes", false, 1, 10);
       break;
     case "exercise_days":
-      setValidation(event, "Days", false, 1, 1);
+      setValidation(event, "Days", false, 1, 2);
       break;
       
 
@@ -261,19 +300,25 @@ const validateInput = (event) => {
 
 const checkRadioSelected = () => {
   const radioRows = Array.from(document.getElementsByClassName("alcoholRadioRow"));
+  console.log("CHECK1");
     
     radioRows.forEach((ele)=>{
       if(ele.previousElementSibling.className=="errorMsgs"){
         ele.previousElementSibling.remove();
       }
       const radioEles =  Array.from(ele.getElementsByClassName("alcoholRadio"));
-      const checked  = false;
+      let checked  = false;
+      
       radioEles.forEach((ele)=>{
+
+        console.log(ele.checked);
+        
         if(ele.checked){
           checked = true;
-          return;
         }
+      
       })
+    
       if(!checked){
         console.log("radio required");
         let p = document.createElement("p");
@@ -289,12 +334,13 @@ const checkRadioSelected = () => {
 
   const checkValid = (event) =>{
     checkRadioSelected();
+    blurAllInputs();
    
     const errorElements = document.getElementsByClassName("errorMsgs");
-    blurAllInputs();
+   
+    
     if(errorElements){
      
-      console.log("VALIDATION ERRORS");
       // scroll to first error input and focus
       errorElements[0].previousElementSibling.scrollIntoView();
       console.log(errorElements[0].previousElementSibling);
@@ -376,10 +422,10 @@ $marital[set_value('marital_status')] = true;
         <input class="form-control mb-3" type="text" name="postcode" id="postcode"
           value="<?php echo set_value('postcode'); ?>" onblur="validateInput(event)"></input>
         <label class="form-label" for="mobile">Mobile*:</label>
-        <input class="form-control mb-3" type="text" name="mobile" id="mobile"
+        <input class="form-control mb-3 numberInput" type="number" name="mobile" id="mobile"
           value="<?php echo set_value('mobile'); ?>" onblur="validateInput(event)"></input>
         <label class="form-label" for="hometele">Home Telephone*:</label>
-        <input class="form-control mb-3" type="text" name="home_telephone" id="hometele"
+        <input class="form-control mb-3 numberInput" type="number" name="home_telephone" id="hometele"
           value="<?php echo set_value('home_telephone'); ?>" onblur="validateInput(event)"></input>
           <div class="mb-3">
         <p>Would you like to recieve contact via SMS?</p>
@@ -440,12 +486,12 @@ $gender[set_value('gender')] = true;
           <p><b>Next of Kin:</b></p>
           <label class="form-label" for="name">Name*:</label>
           <input class="form-control mb-3" type="text" name="kin_name" id="name"
-            value="<?php echo set_value('kin_name'); ?>" onblur="validateInput(event)"></input>
+            value="<?php echo set_value('kin_name'); ?>" onblur="validateInput(event)" autocomplete="off"></input>
           <label class="form-label" for="relationship">Relationship*:</label>
           <input class="form-control mb-3" type="text" name="kin_relationship" id="relationship"
             value="<?php echo set_value('kin_relationship'); ?>" onblur="validateInput(event)"></input>
           <label class="form-label" for="telephone">Telephone*:</label>
-          <input class="form-control mb-3" type="text" name="kin_telephone" id="telephone"
+          <input class="form-control mb-3 numberInput" type="number" name="kin_telephone" id="telephone"
             value="<?php echo set_value('kin_telephone'); ?>" onblur="validateInput(event)"></input>
         </div>
       </div>
@@ -703,27 +749,6 @@ echo "</tr>";
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
   </script>
 </body>
-
-<script>
-
-  //required
-  // const required = (formInputID)=>{
-  //   const inputElement = document.getElementById(formInputID);
-
-  //   if((document.getElementById(formInputID).value)==("")){
-  //     alert(inputElement.name + " is required")
-  //   }
-  // }
-
-
-
-  // Call on form submit
-  // const formValidation = () =>{
-
-  // }
-
-  // document.getElementById("title").addEventListener("blur", formValidation);
-  </script>
 
 </html>
 

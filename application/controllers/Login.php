@@ -19,7 +19,7 @@ class login extends CI_Controller
     //retrieves a row of user data from the database if user exists
     public function getUserData()
     {
-        //retrieve input data from login form
+        //retrieve and sanitize input data from login form
         $username = $this->input->post('username',TRUE);
         $password = $this->input->post('password',TRUE);
 

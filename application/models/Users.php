@@ -3,18 +3,22 @@ class Users extends CI_Model
 {
     public function getUser($username, $password)
     {
+
         $this->db->select('*');
         $this->db->from('users');
         $this->db->where('username', $username);
-        $this->db->where('password', $password);
             
         $query = $this->db->get();
-
-        if($query->num_rows() == 1)
+        if($query->num_rows() == 1){
+        foreach($query->result() as $row)
         {
-            return $query;
+          $hashedPass = $row->password;
+            if(password_verify($password, $hashedPass)){
+              return $query;
+            };
         }
-        else
+      }
+      else
         {
             return null;
         }
@@ -23,7 +27,7 @@ class Users extends CI_Model
     {
         $data = array();
         $data['username'] = $username;
-        $data['password'] = $password;
+        $data['password'] = password_hash($password, PASSWORD_DEFAULT);
         
         //username must have a value
         if($data['username']!=null && $data['password']!=null)
