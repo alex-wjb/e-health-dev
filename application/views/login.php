@@ -6,7 +6,16 @@
 ?>
 <head>
   <title>e-health Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+
+  .mainCard{
+    width: 300px;
+  }
+
+</style>
+  
 </head>
 
 <body>
@@ -16,7 +25,7 @@
 
   
 
-  <div class="mx-auto my-3 p-3" style="width: 300px;">
+  <div class="mx-auto my-3 p-3 mainCard">
     <?php echo validation_errors();?>
     <!-- TODO: disable bootstrap RFS -->
     <h2 style="font-size:2em!important"class="text-center mb-3">Patient Sign In</h2>
