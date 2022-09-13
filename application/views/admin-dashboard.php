@@ -25,7 +25,6 @@
                 <td>{$row->surname}</td>
                 <td>{$row->status}</td>
                 <td><a href="{$view}">View</a>
-                <td>Update</td>
                 </tr>
 
                 _END;

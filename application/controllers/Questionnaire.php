@@ -83,8 +83,8 @@ class Questionnaire extends CI_Controller
         {
             //VALIDATION
             $this->form_validation->set_rules("email","Email","min_length[3]|max_length[50]|valid_email");
-            $this->form_validation->set_rules("firstname","First Name","required|min_length[1]|max_length[30]|alpha_dash");
-            $this->form_validation->set_rules("surname","Surname","required|min_length[1]|max_length[30]|alpha_dash");
+            $this->form_validation->set_rules("firstname","First Name","required|min_length[1]|max_length[30]|alpha_numeric_spaces");
+            $this->form_validation->set_rules("surname","Surname","required|min_length[1]|max_length[30]|alpha_numeric_spaces");
             $this->form_validation->set_rules("dob","Date of Birth","required|min_length[3]|max_length[20]|alpha_dash|callback_validateDate");
             $this->form_validation->set_rules("title","Title","required|min_length[1]|max_length[20]|alpha_dash");
             $this->form_validation->set_rules("marital_status","Marital Status","required");
@@ -98,12 +98,12 @@ class Questionnaire extends CI_Controller
             $this->form_validation->set_rules("gender","Gender","required");
             $this->form_validation->set_rules("height","Height","required|min_length[1]|max_length[5]|numeric");
             $this->form_validation->set_rules("weight","Weight","required|min_length[1]|max_length[5]|numeric");
-            $this->form_validation->set_rules("kin_name","Next of Kin Name","required|min_length[1]|max_length[30]|alpha_dash");
-            $this->form_validation->set_rules("kin_relationship","Kin Relationship","required|min_length[1]|max_length[30]|alpha_dash");
+            $this->form_validation->set_rules("kin_name","Next of Kin Name","required|min_length[1]|max_length[30]|alpha_numeric_spaces");
+            $this->form_validation->set_rules("kin_relationship","Kin Relationship","required|min_length[1]|max_length[30]|alpha_numeric_spaces");
             $this->form_validation->set_rules("kin_telephone","Kin Telephone","required|min_length[10]|max_length[11]|numeric");
             $this->form_validation->set_rules("allergy","Allergy Selection","required");
-            $this->form_validation->set_rules("exercise_minutes","Minutes of exercise per session","required|min_length[1]|max_length[10]|numeric");
-            $this->form_validation->set_rules("exercise_days","Days of exercise per week","required|min_length[1]|max_length[1]|numeric");
+            $this->form_validation->set_rules("exercise_minutes","Minutes of exercise per session","min_length[1]|max_length[10]|numeric");
+            $this->form_validation->set_rules("exercise_days","Days of exercise per week","min_length[1]|max_length[1]|numeric");
 
             if($this->form_validation->run() == false) //validation error
             {
